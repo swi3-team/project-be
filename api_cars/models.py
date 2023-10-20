@@ -13,7 +13,8 @@ class Brand(models.Model):
 
     def __str__(self):
         return f"Car brand: {self.name} from {self.country}"
-    
+
+
 class Owner(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
     surname = models.CharField(max_length=50, null=False, blank=False)
@@ -28,3 +29,31 @@ class Owner(models.Model):
 
     def __str__(self):
         return f"Owner: {self.name} {self.surname}\nCity: {self.city}\nAge: {self.age}\nGender: {self.gender}"
+
+
+class Car(models.Model):
+    car_types = (
+        ("Sedan", "Sedan"),
+        ("SUV", "SUV"),
+        ("Coupe", "Coupe"),
+        ("Sports", "Sports"),
+        ("Other", "Other")
+    )
+
+    name = models.CharField(max_length=100, null=False, blank=False)
+    country = models.CharField(max_length=100, null=False, blank=False)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    year_made = models.PositiveBigIntegerField()
+    type = models.CharField(max_length=100, null=False, blank=False)
+    engine = models.CharField(
+        max_length=100, null=False, blank=False, choices=car_types)
+    image_url = models.CharField(max_length=100, null=False, blank=False)
+
+    class Meta:
+        db_table = "car"
+        verbose_name = _("Car")
+        verbose_name_plural = _("Cars")
+
+    def __str__(self):
+        return f"Car with name: {self.name} from company: {self.country}, this car is of type: {self.type}"
