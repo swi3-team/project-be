@@ -13,3 +13,18 @@ class Brand(models.Model):
 
     def __str__(self):
         return f"Car brand: {self.name} from {self.country}"
+    
+class Owner(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False)
+    surname = models.CharField(max_length=50, null=False, blank=False)
+    city = models.CharField(max_length=30, null=False, blank=False)
+    age = models.IntegerField(null=False, blank=False)
+    gender = models.CharField(max_length=30, null=False, blank=False)
+
+    class Meta:
+        db_table = "owners"
+        verbose_name = _("Owner")
+        verbose_name_plural = _("Owners")
+
+    def __str__(self):
+        return f"Owner: {self.name} {self.surname}\nCity: {self.city}\nAge: {self.age}\nGender: {self.gender}"
