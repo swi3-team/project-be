@@ -37,7 +37,7 @@ class Car(models.Model):
         ("SUV", "SUV"),
         ("Coupe", "Coupe"),
         ("Sports", "Sports"),
-        ("Other", "Other")
+        ("Other", "Other"),
     )
 
     name = models.CharField(max_length=100, null=False, blank=False)
@@ -47,11 +47,12 @@ class Car(models.Model):
     year_made = models.PositiveBigIntegerField()
     type = models.CharField(max_length=100, null=False, blank=False)
     engine = models.CharField(
-        max_length=100, null=False, blank=False, choices=car_types)
+        max_length=100, null=False, blank=False, choices=car_types
+    )
     image_url = models.CharField(max_length=100, null=False, blank=False)
 
     class Meta:
-        db_table = "car"
+        db_table = "cars"
         verbose_name = _("Car")
         verbose_name_plural = _("Cars")
 
