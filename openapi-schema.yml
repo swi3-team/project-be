@@ -1,0 +1,250 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/cars/cars/:
+    get:
+      operationId: listCarLists
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarList'
+          description: ''
+      tags:
+      - api
+  /api/cars/cars/{id}/:
+    get:
+      operationId: retrieveCarDetail
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarDetail'
+          description: ''
+      tags:
+      - api
+  /api/cars/cars/add/:
+    post:
+      operationId: createCarAdd
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarAdd'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CarAdd'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CarAdd'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarAdd'
+          description: ''
+      tags:
+      - api
+  /api/cars/cars/edit/{id}/:
+    put:
+      operationId: updateCarEdit
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarEdit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CarEdit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CarEdit'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarEdit'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateCarEdit
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarEdit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CarEdit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CarEdit'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarEdit'
+          description: ''
+      tags:
+      - api
+  /api/cars/cars/delete/{id}/:
+    delete:
+      operationId: destroyCarDelete
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    CarList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          maxLength: 100
+        image_url:
+          type: string
+          maxLength: 100
+      required:
+      - name
+      - type
+      - image_url
+    CarDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        year_made:
+          type: integer
+        engine:
+          enum:
+          - Sedan
+          - SUV
+          - Coupe
+          - Sports
+          - Other
+          type: string
+        image_url:
+          type: string
+          maxLength: 100
+        brand:
+          type: string
+          readOnly: true
+        owner:
+          type: string
+          readOnly: true
+      required:
+      - name
+      - type
+      - country
+      - year_made
+      - engine
+      - image_url
+    CarAdd:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        year_made:
+          type: integer
+        engine:
+          enum:
+          - Sedan
+          - SUV
+          - Coupe
+          - Sports
+          - Other
+          type: string
+        image_url:
+          type: string
+          maxLength: 100
+        brand:
+          type: integer
+        owner:
+          type: integer
+      required:
+      - name
+      - type
+      - country
+      - year_made
+      - engine
+      - image_url
+      - brand
+      - owner
+    CarEdit:
+      type: object
+      properties:
+        owner:
+          type: integer
+      required:
+      - owner
