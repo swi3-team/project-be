@@ -16,17 +16,13 @@ from .serializers import *
 # ------------------ BRANDS ------------------
 
 
-class BrandListView(ListAPIView):
-    serializer_class = BrandSerializer
+class BrandAPIView(APIView):
+    def get(self, request):
+        brands = Brand.objects.order_by("name")
+        serializer = BrandSerializer(brands, many=True)
+        return Response(data=serializer.data, status=200)
 
-    def get_queryset(self):
-        return Brand.objects.order_by("name")
-
-
-class BrandAddView(CreateAPIView):
-    serializer_class = BrandAddSerializer
-
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         serializer = BrandAddSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -37,11 +33,18 @@ class BrandAddView(CreateAPIView):
 # ------------------ OWNERS ------------------
 
 
-class OwnerListView(ListAPIView):
-    serializer_class = OwnerSerializer
+class OwnerAPIView(APIView):
+    def get(self, request):
+        owners = Owner.objects.order_by("surname")
+        serializer = OwnerSerializer(owners, many=True)
+        return Response(data=serializer.data, status=200)
 
-    def get_queryset(self):
-        return Owner.objects.order_by("surname")
+    def post(self, request):
+        serializer = OwnerAddSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=201)
+        return Response(data=serializer.errors, status=400)
 
 
 class OwnerDetailView(RetrieveAPIView):
@@ -54,61 +57,41 @@ class OwnerDetailView(RetrieveAPIView):
         raise NotFound(detail="Owner not found")
 
 
-class OwnerAddView(CreateAPIView):
-    serializer_class = OwnerAddSerializer
+# ------------------ CARS ------------------
 
-    def post(self, request, *args, **kwargs):
-        serializer = OwnerAddSerializer(data=request.data)
+
+class CarAPIView(APIView):
+    def get(self, request):
+        cars = Car.objects.order_by("year_made")
+        serializer = CarListSerializer(cars, many=True)
+        return Response(data=serializer.data, status=200)
+
+    def post(self, request):
+        serializer = CarAddSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data, status=201)
         return Response(data=serializer.errors, status=400)
 
 
-# ------------------ CARS ------------------
+class CarDetailAPIView(APIView):
+    def get(self, request, id):
+        if car := Car.objects.filter(id=id).first():
+            serializer = CarDetailSerializer(car)
+            return Response(data=serializer.data, status=200)
+        return Response(status=404)
 
+    def put(self, request, id):
+        if car := Car.objects.filter(id=id).first():
+            serializer = CarEditSerializer(car, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(data=serializer.data, status=200)
+            return Response(data=serializer.errors, status=400)
+        return Response(status=404)
 
-class CarListView(ListAPIView):
-    serializer_class = CarListSerializer
-
-    def get_queryset(self):
-        return Car.objects.order_by("year_made")
-
-
-class CarDetailView(RetrieveAPIView):
-    serializer_class = CarDetailSerializer
-
-    def get_object(self):
-        if car_id := self.kwargs.get("id"):
-            if car := Car.objects.filter(id=car_id).first():
-                return car
-        raise NotFound(detail="Car not found")
-
-
-class CarAddView(CreateAPIView):
-    serializer_class = CarAddSerializer
-
-
-class CarEditView(UpdateAPIView):
-    serializer_class = CarEditSerializer
-
-    def get_object(self):
-        if car_id := self.kwargs.get("id"):
-            if car := Car.objects.filter(id=car_id).first():
-                return car
-        raise NotFound(detail="Car not found")
-
-
-class CarDeleteView(DestroyAPIView):
-    serializer_class = CarDeleteSerializer
-
-    def get_object(self):
-        if car_id := self.kwargs.get("id"):
-            if car := Car.objects.filter(id=car_id).first():
-                return car
-        raise NotFound(detail="Car not found")
-
-    def delete(self, request, *args, **kwargs):
-        car = self.get_object()
-        car.delete()
-        return Response(status=204)
+    def delete(self, request, id):
+        if car := Car.objects.filter(id=id).first():
+            car.delete()
+            return Response(status=204)
+        return Response(status=404)

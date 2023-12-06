@@ -7,12 +7,7 @@ from .owner import OwnerSerializer
 class CarListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
-        fields = (
-            "id",
-            "name",
-            "type",
-            "image_url",
-        )
+        fields = "__all__"
 
 
 class CarDetailSerializer(serializers.ModelSerializer):
@@ -21,17 +16,7 @@ class CarDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Car
-        fields = (
-            "id",
-            "name",
-            "type",
-            "country",
-            "year_made",
-            "engine",
-            "image_url",
-            "brand",
-            "owner",
-        )
+        fields = "__all__"
 
     def get_brand(self, obj):
         return BrandSerializer(obj.brand).data
@@ -61,10 +46,11 @@ class CarAddSerializer(serializers.ModelSerializer):
 class CarEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
-        fields = ("owner",)
+        fields = "__all__"
 
     def update(self, instance, validated_data):
-        instance.owner = validated_data.get("owner", instance.owner)
+        instance.Name = validated_data.get("Name", instance.name)
+        [setattr(instance, k, v) for k, v in validated_data.items()]
         instance.save()
         return instance
 
