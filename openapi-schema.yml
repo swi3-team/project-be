@@ -3,9 +3,9 @@ info:
   title: ''
   version: ''
 paths:
-  /api/cars/cars:
+  /api/cars/brands:
     get:
-      operationId: listCarLists
+      operationId: listBrands
       description: ''
       parameters: []
       responses:
@@ -14,12 +14,121 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  $ref: '#/components/schemas/CarList'
+                items: {}
           description: ''
       tags:
       - api
-  /api/cars/cars/{id}:
+    post:
+      operationId: createBrand
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/cars/owners:
+    get:
+      operationId: listOwners
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createOwner
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/cars/owners/{id}:
+    get:
+      operationId: retrieveOwnerDetail
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerDetail'
+          description: ''
+      tags:
+      - api
+  /api/cars/:
+    get:
+      operationId: listCars
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createCar
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - api
+  /api/cars/{id}:
     get:
       operationId: retrieveCarDetail
       description: ''
@@ -34,39 +143,12 @@ paths:
         '200':
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/CarDetail'
+              schema: {}
           description: ''
       tags:
       - api
-  /api/cars/cars:
-    post:
-      operationId: createCarAdd
-      description: ''
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CarAdd'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/CarAdd'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/CarAdd'
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CarAdd'
-          description: ''
-      tags:
-      - api
-  /api/cars/cars/{id}:
     put:
-      operationId: updateCarEdit
+      operationId: updateCarDetail
       description: ''
       parameters:
       - name: id
@@ -78,56 +160,21 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/CarEdit'
+            schema: {}
           application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/CarEdit'
+            schema: {}
           multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/CarEdit'
+            schema: {}
       responses:
         '200':
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/CarEdit'
+              schema: {}
           description: ''
       tags:
       - api
-    patch:
-      operationId: partialUpdateCarEdit
-      description: ''
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CarEdit'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/CarEdit'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/CarEdit'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CarEdit'
-          description: ''
-      tags:
-      - api
-  /api/cars/cars/{id}:
     delete:
-      operationId: destroyCarDelete
+      operationId: destroyCarDetail
       description: ''
       parameters:
       - name: id
@@ -143,7 +190,7 @@ paths:
       - api
 components:
   schemas:
-    CarList:
+    OwnerDetail:
       type: object
       properties:
         id:
@@ -151,100 +198,21 @@ components:
           readOnly: true
         name:
           type: string
-          maxLength: 100
-        type:
+          maxLength: 50
+        surname:
           type: string
-          maxLength: 100
-        image_url:
+          maxLength: 50
+        city:
           type: string
-          maxLength: 100
+          maxLength: 30
+        age:
+          type: integer
+        gender:
+          type: string
+          maxLength: 30
       required:
       - name
-      - type
-      - image_url
-    CarDetail:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        type:
-          type: string
-          maxLength: 100
-        country:
-          type: string
-          maxLength: 100
-        year_made:
-          type: integer
-        engine:
-          enum:
-          - Sedan
-          - SUV
-          - Coupe
-          - Sports
-          - Other
-          type: string
-        image_url:
-          type: string
-          maxLength: 100
-        brand:
-          type: string
-          readOnly: true
-        owner:
-          type: string
-          readOnly: true
-      required:
-      - name
-      - type
-      - country
-      - year_made
-      - engine
-      - image_url
-    CarAdd:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 100
-        type:
-          type: string
-          maxLength: 100
-        country:
-          type: string
-          maxLength: 100
-        year_made:
-          type: integer
-        engine:
-          enum:
-          - Sedan
-          - SUV
-          - Coupe
-          - Sports
-          - Other
-          type: string
-        image_url:
-          type: string
-          maxLength: 100
-        brand:
-          type: integer
-        owner:
-          type: integer
-      required:
-      - name
-      - type
-      - country
-      - year_made
-      - engine
-      - image_url
-      - brand
-      - owner
-    CarEdit:
-      type: object
-      properties:
-        owner:
-          type: integer
-      required:
-      - owner
+      - surname
+      - city
+      - age
+      - gender
