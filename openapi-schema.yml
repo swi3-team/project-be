@@ -3,7 +3,7 @@ info:
   title: ''
   version: ''
 paths:
-  /api/cars/cars/:
+  /api/cars/cars:
     get:
       operationId: listCarLists
       description: ''
@@ -19,7 +19,7 @@ paths:
           description: ''
       tags:
       - api
-  /api/cars/cars/{id}/:
+  /api/cars/cars/{id}:
     get:
       operationId: retrieveCarDetail
       description: ''
@@ -39,7 +39,7 @@ paths:
           description: ''
       tags:
       - api
-  /api/cars/cars/add/:
+  /api/cars/cars:
     post:
       operationId: createCarAdd
       description: ''
@@ -64,7 +64,7 @@ paths:
           description: ''
       tags:
       - api
-  /api/cars/cars/edit/{id}/:
+  /api/cars/cars/{id}:
     put:
       operationId: updateCarEdit
       description: ''
@@ -125,7 +125,7 @@ paths:
           description: ''
       tags:
       - api
-  /api/cars/cars/delete/{id}/:
+  /api/cars/cars/{id}:
     delete:
       operationId: destroyCarDelete
       description: ''

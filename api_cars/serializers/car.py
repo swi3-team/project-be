@@ -46,10 +46,11 @@ class CarAddSerializer(serializers.ModelSerializer):
 class CarEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
-        fields = ("owner",)
+        fields = "__all__"
 
     def update(self, instance, validated_data):
-        instance.owner = validated_data.get("owner", instance.owner)
+        instance.Name = validated_data.get("Name", instance.name)
+        [setattr(instance, k, v) for k, v in validated_data.items()]
         instance.save()
         return instance
 
