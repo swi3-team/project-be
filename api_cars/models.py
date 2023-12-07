@@ -45,10 +45,8 @@ class Car(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     year_made = models.PositiveBigIntegerField()
-    type = models.CharField(max_length=100, null=False, blank=False)
-    engine = models.CharField(
-        max_length=100, null=False, blank=False, choices=car_types
-    )
+    type = models.CharField(max_length=100, null=False, blank=False, choices=car_types)
+    engine = models.CharField(max_length=100, null=False, blank=False)
     image_url = models.CharField(max_length=100, null=False, blank=False)
 
     class Meta:
