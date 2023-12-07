@@ -5,9 +5,27 @@ from .owner import OwnerSerializer
 
 
 class CarListSerializer(serializers.ModelSerializer):
+    brand = serializers.SerializerMethodField()
+    owner = serializers.SerializerMethodField()
+
     class Meta:
         model = Car
-        fields = "__all__"
+        fields = (
+            "name",
+            "type",
+            "country",
+            "year_made",
+            "engine",
+            "image_url",
+            "brand",
+            "owner",
+        )
+
+    def get_brand(self, obj):
+        return BrandSerializer(obj.brand_id).data
+
+    def get_owner(self, obj):
+        return OwnerSerializer(obj.owner_id).data
 
 
 class CarDetailSerializer(serializers.ModelSerializer):
@@ -16,13 +34,22 @@ class CarDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Car
-        fields = "__all__"
+        fields = (
+            "name",
+            "type",
+            "country",
+            "year_made",
+            "engine",
+            "image_url",
+            "brand",
+            "owner",
+        )
 
     def get_brand(self, obj):
-        return BrandSerializer(obj.brand).data
+        return BrandSerializer(obj.brand_id).data
 
     def get_owner(self, obj):
-        return OwnerSerializer(obj.owner).data
+        return OwnerSerializer(obj.owner_id).data
 
 
 class CarAddSerializer(serializers.ModelSerializer):
@@ -35,8 +62,8 @@ class CarAddSerializer(serializers.ModelSerializer):
             "year_made",
             "engine",
             "image_url",
-            "brand",
-            "owner",
+            "brand_id",
+            "owner_id",
         )
 
     def create(self, validated_data):

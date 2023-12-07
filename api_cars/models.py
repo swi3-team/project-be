@@ -32,24 +32,14 @@ class Owner(models.Model):
 
 
 class Car(models.Model):
-    car_types = (
-        ("Sedan", "Sedan"),
-        ("SUV", "SUV"),
-        ("Coupe", "Coupe"),
-        ("Sports", "Sports"),
-        ("Other", "Other"),
-    )
-
     name = models.CharField(max_length=100, null=False, blank=False)
     country = models.CharField(max_length=100, null=False, blank=False)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    brand_id = models.ForeignKey(Brand, on_delete=models.CASCADE)
+    owner_id = models.ForeignKey(Owner, on_delete=models.CASCADE)
     year_made = models.PositiveBigIntegerField()
     type = models.CharField(max_length=100, null=False, blank=False)
-    engine = models.CharField(
-        max_length=100, null=False, blank=False, choices=car_types
-    )
-    image_url = models.CharField(max_length=100, null=False, blank=False)
+    engine = models.CharField(max_length=100, null=False, blank=False)
+    image_url = models.URLField(null=False, blank=False)
 
     class Meta:
         db_table = "cars"
