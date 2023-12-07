@@ -5,24 +5,13 @@ from ..models import *
 class OwnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Owner
-        fields = (
-            "id",
-            "name",
-            "surname",
-        )
+        fields = "__all__"
 
 
 class OwnerDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Owner
-        fields = (
-            "id",
-            "name",
-            "surname",
-            "city",
-            "age",
-            "gender",
-        )
+        fields = "__all__"
 
 
 class OwnerAddSerializer(serializers.ModelSerializer):
